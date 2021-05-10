@@ -15,9 +15,10 @@ class ProductsController < ApplicationController
   # PUT /products
   def create
     Product.destroy_all
-    @products = params[:_json].inject([]) do |created_products, product|
+    req_content = params[:_json].nil? ? [params[:product]] : params[:_json] 
+    @products = req_content.inject([]) do |created_products, params|
       begin 
-        created_products << Product.create(product_params(product))
+        created_products << Product.create(product_params(params))
       rescue ActiveRecord::RecordInvalid => e     
         render json: e.message, status: :unprocessable_entity
       end
@@ -27,7 +28,7 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.update(product_params)
+    if @product.update(product_params(params[:product]))
       render json: @product
     else
       render json: @product.errors, status: :unprocessable_entity
@@ -40,13 +41,11 @@ class ProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def product_params(product)
-      product.permit(:id, :name, :category)
+    def product_params(params)
+      params.permit(:id, :name, :category)
     end
 end
