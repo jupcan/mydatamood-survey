@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
     @products = req_content.inject([]) do |created_products, params|
       begin 
         created_products << Product.create(product_params(params))
-      rescue ActiveRecord::RecordInvalid => e     
+      rescue ActiveRecord::Statement Invalid => e     
         render json: e.message, status: :unprocessable_entity
       end
     end
