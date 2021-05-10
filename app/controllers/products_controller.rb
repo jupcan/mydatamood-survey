@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
     render json: @product
   end
 
-  # POST /products
+  # PUT /products
   def create
     Product.destroy_all
     @products = params[:_json].inject([]) do |created_products, product|
