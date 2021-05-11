@@ -3,19 +3,9 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
+    @categories = Category.all
     if params[:q] == "score"
-      @categories = Category.all
-      @categories.each do |category|
-        score = 0
-        products = category.products.each do |product|
-          test_score = product.interests.average(:score)
-          product.interests.each do |interest|
-            score += interest.score
-          end
-        end
-        average_score = score.to_f/products.count.to_f
-        category.update(score: average_score)
-      end
+      products_mean
       render json: format_response
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
@@ -60,6 +50,19 @@ class CategoriesController < ApplicationController
     def category_params
       params.require(:category).permit(:category, :score)
     end
+
+    def products_mean
+      @categories.each do |category|
+        score = 0
+        products = category.products.each do |product|
+          product.interests.each do |interest|
+            score += interest.score
+          end
+        end
+        average_score = score.to_f/products.count.to_f
+        category.update(score: average_score)
+      end
+    end 
 
     def format_response
       response = @categories
