@@ -9,6 +9,9 @@ class CategoriesController < ApplicationController
       @categories.each do |category|
         score = 0
         products = category.products.each do |product|
+          puts "test: #{category.products.count}"
+          puts "test: #{product.interests.average(:score)}"
+          test_score = product.interests.average(:score)
           product.interests.each do |interest|
             score += interest.score
           end
