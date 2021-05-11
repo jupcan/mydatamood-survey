@@ -37,12 +37,10 @@ class InterestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_interest
       @interest = Interest.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def interest_params
       params.require(:interest).permit(:user_id, :product_id, :score)
     end
