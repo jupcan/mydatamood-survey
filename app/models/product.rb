@@ -1,9 +1,5 @@
 class Product < ApplicationRecord
-  belongs_to :category
   after_initialize :generate_uuid
-
-  protected
-  def generate_uuid
-    self.id = SecureRandom.uuid unless self.id
-  end
+  belongs_to :category
+  has_many :interests
 end

@@ -3,9 +3,23 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.all
-
-    render json: @categories
+    average_score = 0
+    if params[:q] == "score"
+      @categories = Category.all
+      @categories.each do |category|
+        score = 0
+        products = category.products.each do |product|
+          product.interests.each do |interest|
+            score += interest.score
+          end
+        end
+        average_score = score.to_f/products.count.to_f
+        category.update(score: average_score.round)
+      end
+      render json: @categories
+    else
+      render json: 'Unknown type of query provided, try again.', status: :unprocessable_entity
+    end
   end
 
   # GET /categories/1

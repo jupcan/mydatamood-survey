@@ -10,13 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_11_011503) do
+ActiveRecord::Schema.define(version: 2021_05_11_144143) do
 
   create_table "categories", force: :cascade do |t|
     t.string "category", null: false
     t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.string "user_id", null: false
+    t.string "product_id", null: false
+    t.integer "score", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "\"id\", \"product\"", name: "index_interests_on_id_and_product", unique: true
+    t.index ["product_id"], name: "index_interests_on_product_id"
+    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
   create_table "products", id: :string, force: :cascade do |t|
@@ -27,5 +38,14 @@ ActiveRecord::Schema.define(version: 2021_05_11_011503) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
+  create_table "users", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "interests", "products"
+  add_foreign_key "interests", "users"
   add_foreign_key "products", "categories"
 end
