@@ -18,9 +18,12 @@ class ProductsController < ApplicationController
     req_content = params[:_json].nil? ? [params[:product]] : params[:_json] 
     @products = req_content.inject([]) do |created_products, params|
       begin 
-        created_products << Product.create(product_params(params))
-      rescue ActiveRecord::Statement Invalid => e     
+        category = Category.find_by(category: params[:category])
+        category = Category.create(category: params[:category]) if category.blank?
+        created_products << category.products.create(product_params(params.except(:category)))
+      rescue ActiveRecord::StatementInvalid => e     
         render json: e.message, status: :unprocessable_entity
+        raise
       end
     end
     render json: @products, status: :created
