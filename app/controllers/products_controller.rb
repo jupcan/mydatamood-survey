@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :update, :destroy]
+  before_action :set_product, only: [:show]
 
   # GET /products
   def index
@@ -32,20 +32,6 @@ class ProductsController < ApplicationController
       end
     end
     render json: @products, status: :created
-  end
-
-  # PATCH/PUT /products/1
-  def update
-    if @product.update(product_params(params[:product]))
-      render json: @product
-    else
-      render json: @product.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /products/1
-  def destroy
-    @product.destroy
   end
 
   private
