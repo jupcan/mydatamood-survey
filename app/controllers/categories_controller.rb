@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.all
     if params[:q] == "score"
-      products_mean
+      category_products_mean
       render json: format_response
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
@@ -51,16 +51,11 @@ class CategoriesController < ApplicationController
       params.require(:category).permit(:category, :score)
     end
 
-    def products_mean
+    def category_products_mean
       @categories.each do |category|
-        score = 0
-        products = category.products.each do |product|
-          product.interests.each do |interest|
-            score += interest.score
-          end
-        end
-        average_score = score.to_f/products.count.to_f
-        category.update(score: average_score)
+        category_interests = category.products.map(&:interests).flatten.map(&:score)
+        average_score = category_interests.sum.to_f/category_interests.count.to_f
+        category.update(score: average_score.round(2))
       end
     end 
 

@@ -4,7 +4,12 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     @products = Product.all
-    render json: @products
+    if params[:q] == "score"
+      @products.each { |product| product.update(score: product.interests.average(:score).round(2)) unless product.interests.empty? }
+      render json: format_response, status: :ok, each_serializer: ScoreProductSerializer
+    else
+      render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
+    end
   end
 
   # GET /products/1
@@ -51,4 +56,11 @@ class ProductsController < ApplicationController
     def product_params(params)
       params.permit(:id, :name, :category_id)
     end
+
+    def format_response
+      response = @products
+      response = @products.order_by_score if params[:reverse] == 'true'
+      response = response.first(params[:limit].to_i) if params[:limit]
+      response
+    end 
 end
