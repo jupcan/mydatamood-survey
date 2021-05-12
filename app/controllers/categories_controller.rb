@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:show]
 
   # GET /categories
   def index
@@ -10,11 +9,6 @@ class CategoriesController < ApplicationController
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
     end
-  end
-
-  # GET /categories/1
-  def show
-    render json: @category
   end
 
   # POST /categories
@@ -29,10 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   private
-    def set_category
-      @category = Category.find(params[:id])
-    end
-
+  
     def category_params
       params.require(:category).permit(:category, :score)
     end

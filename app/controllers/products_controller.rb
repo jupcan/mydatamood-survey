@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show]
 
   # GET /products
   def index
@@ -10,11 +9,6 @@ class ProductsController < ApplicationController
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
     end
-  end
-
-  # GET /products/1
-  def show
-    render json: @product
   end
 
   # PUT /products
@@ -35,9 +29,6 @@ class ProductsController < ApplicationController
   end
 
   private
-    def set_product
-      @product = Product.find(params[:id])
-    end
 
     def product_params(params)
       params.permit(:id, :name, :category_id)
