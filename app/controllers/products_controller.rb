@@ -4,7 +4,9 @@ class ProductsController < ApplicationController
   def index
     @products = Product.all
     if params[:q] == "score"
-      @products.each { |product| product.update(score: product.interests.average(:score).round(2)) unless product.interests.empty? }
+      @products.each do |product|
+        product.update(score: product.interests.average(:score).round(2)) unless product.interests.empty?
+      end
       render json: format_response, status: :ok, each_serializer: ScoreProductSerializer
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
@@ -13,7 +15,7 @@ class ProductsController < ApplicationController
 
   # PUT /products
   def create
-    Product.destroy_all
+    Product.destroy_all #delete all products and their dependent interests 
     req_content = params[:_json].nil? ? [params[:product]] : params[:_json] 
     @products = req_content.inject([]) do |created_products, params|
       begin 
