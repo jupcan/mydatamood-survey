@@ -31,7 +31,6 @@ class ProductsController < ApplicationController
   end
 
   private
-
     def product_params(params)
       params.permit(:id, :name, :category_id)
     end

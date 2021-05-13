@@ -12,7 +12,6 @@ class CategoriesController < ApplicationController
   end
 
   private
-
     def category_products_mean
       @categories.each do |category|
         category_interests = category.products.map(&:interests).flatten.map(&:score)
