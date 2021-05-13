@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     @categories = Category.all
     if params[:q] == "score"
       category_products_mean
-      render json: format_response
+      render json: format_response, status: :ok
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
     end

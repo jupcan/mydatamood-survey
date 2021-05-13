@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
       @products.each do |product|
         product.update(score: product.interests.average(:score).round(2)) unless product.interests.empty?
       end
-      render json: format_response, status: :ok, each_serializer: ScoreProductSerializer
+      render json: format_response, each_serializer: ScoreProductSerializer, status: :ok
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
     end
@@ -15,17 +15,11 @@ class ProductsController < ApplicationController
 
   # PUT /products
   def create
-    Product.destroy_all #delete all products and their dependent interests 
-    req_content = params[:_json].nil? ? [params] : params[:_json] 
-    @products = req_content.inject([]) do |created_products, params|
-      begin 
-        category = Category.find_by(category: params[:category])
-        category = Category.create(category: params[:category]) if category.blank?
-        created_products << category.products.create(product_params(params.except(:category)))
-      rescue ActiveRecord::StatementInvalid => e     
-        render json: e.message, status: :unprocessable_entity
-        raise
-      end
+    Product.destroy_all # deletes all products and their dependent interests 
+    req_content = params[:_json].nil? ? [params] : params[:_json] # array of objects or just one instance
+    @products = req_content.map do |product|
+      category = Category.find_or_create_by(category: product[:category])
+      category.products.create(product_params(product.except(:category)))
     end
     render json: @products, status: :created
   end
