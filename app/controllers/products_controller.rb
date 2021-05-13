@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
   # PUT /products
   def create
     Product.destroy_all #delete all products and their dependent interests 
-    req_content = params[:_json].nil? ? [params[:product]] : params[:_json] 
+    req_content = params[:_json].nil? ? [params] : params[:_json] 
     @products = req_content.inject([]) do |created_products, params|
       begin 
         category = Category.find_by(category: params[:category])
