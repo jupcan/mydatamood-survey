@@ -3,9 +3,23 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.all
-
-    render json: @categories
+    if params[:q] == "score"
+      @categories = Category.all
+      @categories.each do |category|
+        score = 0
+        products = category.products.each do |product|
+          test_score = product.interests.average(:score)
+          product.interests.each do |interest|
+            score += interest.score
+          end
+        end
+        average_score = score.to_f/products.count.to_f
+        category.update(score: average_score)
+      end
+      render json: format_response
+    else
+      render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
+    end
   end
 
   # GET /categories/1
@@ -27,7 +41,7 @@ class CategoriesController < ApplicationController
   # PATCH/PUT /categories/1
   def update
     if @category.update(category_params)
-      render json: @category
+      render json: @category, status: :unprocessable_entity
     else
       render json: @category.errors, status: :unprocessable_entity
     end
@@ -39,13 +53,18 @@ class CategoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_category
       @category = Category.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def category_params
       params.require(:category).permit(:category, :score)
     end
+
+    def format_response
+      response = @categories
+      response = @categories.order_by_score if params[:reverse] == 'true'
+      response = response.first(params[:limit].to_i) if params[:limit]
+      response
+    end 
 end
