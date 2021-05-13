@@ -1,0 +1,163 @@
+---
+openapi: 3.0.1
+info:
+  title: mydatamood-survey
+  version: v1
+paths:
+  "/categories":
+    get:
+      summary: query category data
+      tags:
+      - category
+      parameters:
+      - name: q
+        in: query
+        description: type of query to be run
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit in the number of results returned
+        schema:
+          type: integer
+      - name: reverse
+        in: query
+        description: flag to indicate the result ordering
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                name: categories
+                items:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+                      default: landline_internet
+                    score:
+                      type: number
+                      format: double
+                      default: 4.0
+  "/interests":
+    post:
+      summary: load interest show by a user into a particular product
+      tags:
+      - interest
+      parameters: []
+      responses:
+        '201':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                name: interest
+                properties:
+                  user_id:
+                    type: string
+                    default: asdfasdf123
+                  product_id:
+                    type: string
+                    default: 1234abcd
+                  score:
+                    type: number
+                    format: double
+                    default: 7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  default: asdfasdf123
+                product_id:
+                  type: string
+                  default: 1234abcd
+                score:
+                  type: number
+                  format: double
+                  default: 7
+              required:
+              - name
+              - category
+  "/products":
+    put:
+      summary: load list of available products into the system
+      tags:
+      - product
+      parameters: []
+      responses:
+        '201':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                name: products
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      default: 1234abcd
+                    name:
+                      type: string
+                      default: Car Insurance for any damage
+                    category:
+                      type: string
+                      default: car_insurances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    default: 1234abcd
+                  name:
+                    type: string
+                    default: Car Insurance for any damage
+                  category:
+                    type: string
+                    default: car_insurances
+                required:
+                - name
+                - category
+    get:
+      summary: query product data
+      tags:
+      - product
+      parameters:
+      - name: q
+        in: query
+        description: type of query to be run
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: limit in the number of results returned
+        schema:
+          type: integer
+      - name: reverse
+        in: query
+        description: flag to indicate the result ordering
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: list of products
+servers:
+- url: http://localhost:3000
+  description: test server
+- url: heroku
+  description: production server

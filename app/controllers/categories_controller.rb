@@ -5,29 +5,13 @@ class CategoriesController < ApplicationController
     @categories = Category.all
     if params[:q] == "score"
       category_products_mean
-      render json: format_response
+      render json: format_response, status: :ok
     else
       render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
     end
   end
 
-  # POST /categories
-  def create
-    @category = Category.new(category_params)
-
-    if @category.save
-      render json: @category, status: :created, location: @category
-    else
-      render json: @category.errors, status: :unprocessable_entity
-    end
-  end
-
   private
-  
-    def category_params
-      params.require(:category).permit(:category, :score)
-    end
-
     def category_products_mean
       @categories.each do |category|
         category_interests = category.products.map(&:interests).flatten.map(&:score)
