@@ -7,7 +7,7 @@ class CategoriesController < ApplicationController
       category_products_mean
       render json: format_response, status: :ok
     else
-      render json: 'Unknown type of query provided. Please, try again.', status: :bad_request
+      render json: 'Unknown type of query provided. Please, try again.', status: :unprocessable_entity
     end
   end
 

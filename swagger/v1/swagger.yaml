@@ -43,10 +43,9 @@ paths:
                 items:
                   type: object
                   properties:
-                    category:
-                      type: string
-                    score:
-                      type: float
+                    "$ref": "#/definitions/category"
+        '422':
+          description: unknown query type unprocessable entity
   "/interests":
     post:
       summary: load interest show by a user into a particular product
@@ -165,3 +164,11 @@ servers:
   description: test server
 - url: heroku
   description: production server
+definitions:
+  category:
+    type: object
+    properties:
+      category:
+        type: string
+      score:
+        type: float

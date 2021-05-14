@@ -10,35 +10,33 @@ RSpec.describe 'categories', type: :request do
       parameter name: :limit, in: :query, type: :integer, description: 'limit in the number of results returned'
       parameter name: :reverse, in: :query, type: :boolean, description: 'flag to indicate the result ordering'
 
+      let!(:q) { 'score' }
+      let!(:limit) { 2 }
+      let!(:reverse) { true }
+      let!(:category_1) { Category.create(category: "test_category_1", score: 5.0) }
+      let!(:category_2) { Category.create(category: "test_category_2", score: 5.0) }
+
       response(200, 'list of categories') do
-        schema type: :array, name: :categories, 
-        items: {
-          type: :object,
-          properties: {
-            category: { type: :string },
-            score: { type: :float },
-          }
-        }
+        schema type: :array, name: :categories, items: { properties: { '$ref' => '#/definitions/category' } }
 
         examples 'application/json' => [ 
           { category: "landline_internet", score: 8 },
           { category: "race_cars", score: 7 },
           { category: "stock_investment", score: 6.5 } 
         ]
-
-        let!(:q) { 'score' }
-        let!(:limit) { 1 }
-        let!(:reverse) { true }
-        let!(:category) { Category.create(category: "test_category") }
         
         run_test! do |response|
           data = JSON.parse(response.body)
-          puts data
           expect(response).to be_successful
           expect(response.content_type).to match(a_string_including("application/json"))
-          expect(data.size).to eq 1
-          expect(data.first["category"]).to eq "test_category"
-        ednd 
+          expect(data.size).to eq 2
+          expect(data.first["category"]).to eq "test_category_1"
+        end 
+      end
+
+      response(422, 'unknown query type unprocessable entity') do
+        let!(:q) { 'test' }
+        run_test!
       end
     end
   end

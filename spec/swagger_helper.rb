@@ -31,7 +31,16 @@ RSpec.configure do |config|
           url: 'heroku',
           description: 'production server',
         }
-      ]
+      ],
+      definitions: {
+        category: {
+          type: 'object',
+          properties: {
+            category: { type: :string },
+            score: { type: :float }
+          }
+        }
+      }
     }
   }
 
