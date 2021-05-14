@@ -2,7 +2,6 @@ require 'swagger_helper'
 
 RSpec.describe 'categories', type: :request do
   path '/categories' do
-
     get('query category data') do
       tags :category
       produces 'application/json'
@@ -16,17 +15,30 @@ RSpec.describe 'categories', type: :request do
         items: {
           type: :object,
           properties: {
-            category: { type: :string, default: "landline_internet" },
-            score: { type: :number, format: :double, default: 4.0},
+            category: { type: :string },
+            score: { type: :float },
           }
         }
 
-        let!(:category) { Category.create(category: 'test category') }
+        examples 'application/json' => [ 
+          { category: "landline_internet", score: 8 },
+          { category: "race_cars", score: 7 },
+          { category: "stock_investment", score: 6.5 } 
+        ]
+
+        let!(:q) { 'score' }
+        let!(:limit) { 1 }
+        let!(:reverse) { true }
+        let!(:category) { Category.create(category: "test_category") }
+        
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data["categories"].size).to eq 1
-          expect(data["categories"].first["category"]).to eq "test category"
-        end 
+          puts data
+          expect(response).to be_successful
+          expect(response.content_type).to match(a_string_including("application/json"))
+          expect(data.size).to eq 1
+          expect(data.first["category"]).to eq "test_category"
+        ednd 
       end
     end
   end

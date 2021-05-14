@@ -30,6 +30,13 @@ paths:
           description: list of categories
           content:
             application/json:
+              example:
+              - category: landline_internet
+                score: 8
+              - category: race_cars
+                score: 7
+              - category: stock_investment
+                score: 6.5
               schema:
                 type: array
                 name: categories
@@ -38,11 +45,8 @@ paths:
                   properties:
                     category:
                       type: string
-                      default: landline_internet
                     score:
-                      type: number
-                      format: double
-                      default: 4.0
+                      type: float
   "/interests":
     post:
       summary: load interest show by a user into a particular product
