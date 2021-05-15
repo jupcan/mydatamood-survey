@@ -43,8 +43,8 @@ paths:
                 items:
                   properties:
                     "$ref": "#/definitions/category"
-        '422':
-          description: unknown query type unprocessable entity
+        '400':
+          description: unknown query type
   "/interests":
     post:
       summary: load interest show by a user into a particular product
@@ -59,6 +59,8 @@ paths:
               schema:
                 oneOf:
                 - "$ref": "#/definitions/interest"
+        '422':
+          description: product must exist
       requestBody:
         content:
           application/json:
@@ -79,37 +81,14 @@ paths:
                 type: array
                 name: products
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      default: 1234abcd
-                    name:
-                      type: string
-                      default: Car Insurance for any damage
-                    category:
-                      type: string
-                      default: car_insurances
+                  "$ref": "#/definitions/product"
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    default: 1234abcd
-                  name:
-                    type: string
-                    default: Car Insurance for any damage
-                  category:
-                    type: string
-                    default: car_insurances
-                required:
-                - name
-                - category
+                "$ref": "#/definitions/product"
     get:
       summary: query product data
       tags:
@@ -133,6 +112,15 @@ paths:
       responses:
         '200':
           description: list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                name: products
+                items:
+                  "$ref": "#/definitions/product"
+        '400':
+          description: unknown query type
 servers:
 - url: http://localhost:3000
   description: test server
@@ -153,12 +141,16 @@ definitions:
     properties:
       id:
         type: string
+        example: 1234abcd
       name:
         type: string
-      category_id:
-        "$ref": "#/definitions/category"
+        example: Car Insurance for any damage
+      category:
+        type: string
+        example: car_insurances
       score:
         type: number
+        example: 3.5
     required:
     - name
     - category
@@ -177,10 +169,10 @@ definitions:
     type: object
     properties:
       user_id:
-        type: integer
+        type: string
         example: asdfasdf123
       product_id:
-        type: integer
+        type: string
         example: 1234abcd
       score:
         type: number
@@ -188,4 +180,4 @@ definitions:
     required:
     - user_id
     - product_id
-    - socre
+    - score

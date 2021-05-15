@@ -9,7 +9,6 @@ RSpec.describe 'categories', type: :request do
       parameter name: :limit, in: :query, type: :integer, description: 'limit in the number of results returned'
       parameter name: :reverse, in: :query, type: :boolean, description: 'flag to indicate the result ordering'
 
-      let!(:q) { 'score' }
       let!(:limit) { 2 }
       let!(:reverse) { true }
       let!(:category_1) { Category.create(category: "test_category_1") }
@@ -23,7 +22,8 @@ RSpec.describe 'categories', type: :request do
           { category: "race_cars", score: 7 },
           { category: "stock_investment", score: 6.5 } 
         ]
-        
+
+        let!(:q) { 'score' }
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(response).to be_successful
@@ -33,7 +33,7 @@ RSpec.describe 'categories', type: :request do
         end 
       end
 
-      response(422, 'unknown query type') do
+      response(400, 'unknown query type') do
         let!(:q) { 'test' }
         run_test!
       end

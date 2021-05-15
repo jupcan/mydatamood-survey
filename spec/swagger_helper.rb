@@ -43,10 +43,10 @@ RSpec.configure do |config|
         product: {
           type: 'object',
           properties: {
-            id: { type: :string },
-            name: { type: :string },
-            category_id: { '$ref' => '#/definitions/category' },
-            score: { type: :number }
+            id: { type: :string, example: '1234abcd' },
+            name: { type: :string, example: 'Car Insurance for any damage'},
+            category: { type: :string, example: 'car_insurances' },
+            score: { type: :number, example: 3.5 }
           }, required: ['name', 'category']
         },
         user: {
