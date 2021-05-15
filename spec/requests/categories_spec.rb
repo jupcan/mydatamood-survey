@@ -5,7 +5,6 @@ RSpec.describe 'categories', type: :request do
     get('query category data') do
       tags :category
       produces 'application/json'
-
       parameter name: :q, in: :query, type: :string, description: 'type of query to be run'
       parameter name: :limit, in: :query, type: :integer, description: 'limit in the number of results returned'
       parameter name: :reverse, in: :query, type: :boolean, description: 'flag to indicate the result ordering'
@@ -13,8 +12,8 @@ RSpec.describe 'categories', type: :request do
       let!(:q) { 'score' }
       let!(:limit) { 2 }
       let!(:reverse) { true }
-      let!(:category_1) { Category.create(category: "test_category_1", score: 5.0) }
-      let!(:category_2) { Category.create(category: "test_category_2", score: 5.0) }
+      let!(:category_1) { Category.create(category: "test_category_1") }
+      let!(:category_2) { Category.create(category: "test_category_2") }
 
       response(200, 'list of categories') do
         schema type: :array, name: :categories, items: { properties: { '$ref' => '#/definitions/category' } }
@@ -34,7 +33,7 @@ RSpec.describe 'categories', type: :request do
         end 
       end
 
-      response(422, 'unknown query type unprocessable entity') do
+      response(422, 'unknown query type') do
         let!(:q) { 'test' }
         run_test!
       end

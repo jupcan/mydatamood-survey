@@ -41,7 +41,6 @@ paths:
                 type: array
                 name: categories
                 items:
-                  type: object
                   properties:
                     "$ref": "#/definitions/category"
         '422':
@@ -58,38 +57,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                name: interest
-                properties:
-                  user_id:
-                    type: string
-                    default: asdfasdf123
-                  product_id:
-                    type: string
-                    default: 1234abcd
-                  score:
-                    type: number
-                    format: double
-                    default: 7
+                oneOf:
+                - "$ref": "#/definitions/interest"
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
-                  default: asdfasdf123
-                product_id:
-                  type: string
-                  default: 1234abcd
-                score:
-                  type: number
-                  format: double
-                  default: 7
-              required:
-              - name
-              - category
+              "$ref": "#/definitions/interest"
   "/products":
     put:
       summary: load list of available products into the system
@@ -171,4 +145,47 @@ definitions:
       category:
         type: string
       score:
-        type: float
+        type: number
+    required:
+    - category
+  product:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      category_id:
+        "$ref": "#/definitions/category"
+      score:
+        type: number
+    required:
+    - name
+    - category
+  user:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+    required:
+    - id
+  interest:
+    type: object
+    properties:
+      user_id:
+        type: integer
+        example: asdfasdf123
+      product_id:
+        type: integer
+        example: 1234abcd
+      score:
+        type: number
+        example: 7
+    required:
+    - user_id
+    - product_id
+    - socre

@@ -37,8 +37,33 @@ RSpec.configure do |config|
           type: 'object',
           properties: {
             category: { type: :string },
-            score: { type: :float }
-          }
+            score: { type: :number }
+          }, required: ['category']
+        },
+        product: {
+          type: 'object',
+          properties: {
+            id: { type: :string },
+            name: { type: :string },
+            category_id: { '$ref' => '#/definitions/category' },
+            score: { type: :number }
+          }, required: ['name', 'category']
+        },
+        user: {
+          type: 'object',
+          properties: {
+            id: { type: :string },
+            name: { type: :string },
+            email: { type: :string }
+          }, required: ['id']
+        },
+        interest: {
+          type: 'object',
+          properties: {
+            user_id: { type: :string, example: 'asdfasdf123' },
+            product_id: { type: :string, example: '1234abcd' },
+            score: { type: :number, example: 7 }
+          }, required: ['user_id', 'product_id', 'score']
         }
       }
     }

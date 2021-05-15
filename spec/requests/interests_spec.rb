@@ -6,32 +6,46 @@ RSpec.describe 'interests', type: :request do
       tags :interest
       produces 'application/json'
       consumes 'application/json'
+      parameter name: :interest, in: :body, schema: { '$ref' => '#/definitions/interest' }
 
-      parameter name: :interest, in: :body, schema: {
-        type: :object,
-          properties: {
-            user_id: { type: :string, default: "asdfasdf123" },
-            product_id: { type: :string, default: "1234abcd" },
-            score: { type: :number, format: :double, default: 7}
-          },
-          required: ["name", "category"],
-      }
+      let!(:category) { Category.create(category: "test_category") }
+      let!(:user) { User.create(id: "test_user", name: "test_user", email: "test_email@email.com") }
+      let!(:product) { Product.create(id: "test_product", name: "test_product", category: category, score: 2.0) }
 
       response(201, 'successful') do
+        let(:interest) { { user_id: user.id, product_id: product.id, score: 4} }
+        schema oneOf: [ { '$ref' => '#/definitions/interest' } ]
 
-        schema type: :object, name: :interest, 
-        properties: {
-          user_id: { type: :string, default: "asdfasdf123" },
-          product_id: { type: :string, default: "1234abcd" },
-          score: { type: :number, format: :double, default: 7 }
-        }
-
-        let!(:product) { Product.create(id: "1234567", name: "test_product", category: "test_category") }
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data["products"].size).to eq 1
-          expect(data["products"].first["id"]).to eq "1234567"
+          expect(response).to be_successful
+          expect(response.content_type).to match(a_string_including("application/json"))
+          expect(data["user_id"]).to eq "test_user"
+          expect(data["product_id"]).to eq "test_product"
+          expect(data["score"]).to eq 4
         end
+      end
+
+      response(422, 'users cannot score the same product twice') do
+        2.times do
+          let(:interest) { Interest.create(user_id: user.id, product_id: product.id, score: 4) }
+        end
+        run_test! 
+      end
+
+      response(422, 'score must be less than or equal to 10') do
+        let(:interest) { { user_id: user.id, product_id: product.id, score: 11} }
+        run_test! 
+      end
+
+      response(422, 'user must exist') do
+        let(:interest) { { user_id: 100, product_id: product.id, score: 8} }
+        run_test! 
+      end
+
+      response(422, 'product must exist') do
+        let(:interest) { { user_id: user.id, product_id: 100, score: 8} }
+        run_test! 
       end
     end
   end
