@@ -15,7 +15,6 @@ RSpec.describe 'categories', type: :request do
       let!(:category_2) { Category.create(category: "test_category_2") }
 
       response(200, 'list of categories') do
-        schema type: :array, items: { properties: { '$ref' => '#/definitions/category' } }
 
         examples 'application/json' => [ 
           { category: "landline_internet", score: 8 },
