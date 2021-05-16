@@ -42,12 +42,10 @@ RSpec.describe 'products', type: :request do
       let!(:product_2) { Product.create(id: "test_product_2", name: "test_product_2", category: category, score: 2) }
 
       response(200, 'list of products') do
-        schema type: :array, name: :products, items: { '$ref' => '#/definitions/product' }
         let!(:q) { 'score' }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          puts data
           expect(response).to be_successful
           expect(response.content_type).to match(a_string_including("application/json"))
           expect(data.size).to eq 2

@@ -46,7 +46,6 @@ RSpec.configure do |config|
             id: { type: :string, example: '1234abcd' },
             name: { type: :string, example: 'Car Insurance for any damage'},
             category: { type: :string, example: 'car_insurances' },
-            score: { type: :number, example: 3.5 }
           }, required: ['name', 'category']
         },
         user: {
