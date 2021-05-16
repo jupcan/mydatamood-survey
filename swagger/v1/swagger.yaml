@@ -117,7 +117,7 @@ paths:
 servers:
 - url: http://localhost:3000
   description: test server
-- url: heroku
+- url: https://mydatamood-survey.herokuapp.com
   description: production server
 definitions:
   category:

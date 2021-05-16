@@ -28,7 +28,7 @@ RSpec.configure do |config|
           description: 'test server',
         },
         {
-          url: 'https://mydatamood-survey.herokuapp.com/',
+          url: 'https://mydatamood-survey.herokuapp.com',
           description: 'production server',
         }
       ],
