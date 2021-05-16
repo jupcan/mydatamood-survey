@@ -5,10 +5,8 @@ ruby '2.7.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4', group: :development
-# Use postgres as the database for production
-gem 'pg', group: :production
+
+
 # Heroku tweaks to deploy app on their platform
 gem 'rails_12factor'
 # Use Puma as the app server
@@ -30,13 +28,19 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # gem 'rack-cors'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', '~> 1.4'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'rswag-specs'
 end
 
 group :development do
+end
+
+group :production do
+  # Use postgres as the database for production
+  gem 'pg'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
