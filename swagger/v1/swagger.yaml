@@ -39,7 +39,6 @@ paths:
                 score: 6.5
               schema:
                 type: array
-                name: categories
                 items:
                   properties:
                     "$ref": "#/definitions/category"
@@ -79,7 +78,6 @@ paths:
             application/json:
               schema:
                 type: array
-                name: products
                 items:
                   "$ref": "#/definitions/product"
       requestBody:
@@ -115,10 +113,10 @@ paths:
         '400':
           description: unknown query type
 servers:
-- url: http://localhost:3000
-  description: test server
 - url: https://mydatamood-survey.herokuapp.com
   description: production server
+- url: http://localhost:3000
+  description: test server
 definitions:
   category:
     type: object
