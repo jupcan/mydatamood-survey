@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_160922) do
+ActiveRecord::Schema.define(version: 2021_05_16_232608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "category", null: false
-    t.float "score"
+    t.float "score", default: 0.0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_160922) do
   create_table "interests", force: :cascade do |t|
     t.string "user_id", null: false
     t.string "product_id", null: false
-    t.integer "score", null: false
+    t.float "score", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["id", "product_id"], name: "index_interests_on_id_and_product", unique: true
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_160922) do
     t.integer "category_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "score"
+    t.float "score", default: 0.0
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

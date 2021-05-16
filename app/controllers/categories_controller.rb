@@ -15,8 +15,10 @@ class CategoriesController < ApplicationController
     def category_products_mean
       @categories.each do |category|
         category_interests = category.products.map(&:interests).flatten.map(&:score)
-        average_score = category_interests.sum.to_f/category_interests.count.to_f
-        category.update(score: average_score.round(2))
+        unless category_interests.empty?
+          average_score = category_interests.sum.to_f/category_interests.count.to_f
+          category.update(score: average_score.round(2))
+        end
       end
     end 
 

@@ -26,7 +26,7 @@ class ProductsController < ApplicationController
 
   private
     def product_params(params)
-      params.permit(:id, :name, :category_id)
+      params.permit(:id, :name)
     end
 
     def format_response

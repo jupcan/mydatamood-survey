@@ -2,7 +2,8 @@ class InterestsController < ApplicationController
 
   # POST /interests
   def create
-    @interest = Interest.new(interest_params)
+    user = User.find_or_create_by(id: params[:user_id])
+    @interest = user.interests.new(interest_params)
     if @interest.save
       render json: @interest, status: :created
     else
@@ -12,6 +13,6 @@ class InterestsController < ApplicationController
 
   private
     def interest_params
-      params.require(:interest).permit(:user_id, :product_id, :score)
+      params.require(:interest).permit(:product_id, :score)
     end
 end
