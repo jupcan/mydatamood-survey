@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_05_12_160922) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "categories", force: :cascade do |t|
     t.string "category", null: false
     t.float "score"
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_160922) do
     t.integer "score", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"id\", \"product\"", name: "index_interests_on_id_and_product", unique: true
+    t.index ["id", "product_id"], name: "index_interests_on_id_and_product", unique: true
     t.index ["product_id"], name: "index_interests_on_product_id"
     t.index ["user_id"], name: "index_interests_on_user_id"
   end

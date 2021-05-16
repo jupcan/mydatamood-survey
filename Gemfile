@@ -6,9 +6,9 @@ ruby '2.7.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4', group: :development
+#gem 'sqlite3', '~> 1.4', group: :development
 # Use postgres as the database for production
-gem 'pg', group: :production
+gem 'pg'
 # Heroku tweaks to deploy app on their platform
 gem 'rails_12factor'
 # Use Puma as the app server
