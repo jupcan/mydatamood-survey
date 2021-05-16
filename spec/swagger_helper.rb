@@ -24,12 +24,12 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'http://localhost:3000',
-          description: 'test server',
-        },
-        {
           url: 'https://mydatamood-survey.herokuapp.com',
           description: 'production server',
+        },
+        {
+          url: 'http://localhost:3000',
+          description: 'test server',
         }
       ],
       definitions: {
