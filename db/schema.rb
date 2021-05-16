@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 2021_05_12_160922) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "interests", force: :cascade do |t|
+    t.string "user_id", null: false
+    t.string "product_id", null: false
+    t.integer "score", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id", "product_id"], name: "index_interests_on_id_and_product", unique: true
+    t.index ["product_id"], name: "index_interests_on_product_id"
+    t.index ["user_id"], name: "index_interests_on_user_id"
+  end
+
   create_table "products", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.integer "category_id", null: false
@@ -36,17 +47,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_160922) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "interests", force: :cascade do |t|
-    t.string "user_id", null: false
-    t.string "product_id", null: false
-    t.integer "score", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["id", "product_id"], name: "index_interests_on_id_and_product", unique: true
-    t.index ["product_id"], name: "index_interests_on_product_id"
-    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
   add_foreign_key "interests", "products"
