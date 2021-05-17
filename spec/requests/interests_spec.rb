@@ -13,7 +13,7 @@ RSpec.describe 'interests', type: :request do
       let!(:product) { Product.create(id: "test_product", name: "test_product", category: category, score: 2.0) }
 
       response(201, 'successful') do
-        schema oneOf: [ { '$ref' => '#/definitions/interest' } ]
+        schema oneOf: { '$ref' => '#/definitions/interest' }
         let(:interest) { { user_id: user.id, product_id: product.id, score: 4} }
 
         run_test! do |response|
