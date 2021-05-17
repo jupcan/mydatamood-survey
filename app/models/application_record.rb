@@ -9,4 +9,3 @@ class ApplicationRecord < ActiveRecord::Base
     self.id = SecureRandom.uuid unless id
   end
 end
-
