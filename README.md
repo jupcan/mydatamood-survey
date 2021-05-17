@@ -1,6 +1,8 @@
-# MyDataMood-survey 
+# [MyDataMood-survey](https://mydatamood-survey.herokuapp.com)
 [![Build Status](https://travis-ci.com/jupcan/mydatamood-survey.svg?branch=main)](https://travis-ci.com/jupcan/mydatamood-survey) [![Heroku](https://heroku-badge.herokuapp.com/?app=mydatamood-survey)](https://mydatamood-survey.herokuapp.com/)
 > REST API to handle a survey system collecting user interests in certain products and categories and providing insights about the popularity of each of them to understand consumer trends and how they can monetize them.
+
+![architecture_diagram](doc/architecture.png)
 
 ## Usage
 There are 4 different endpoints implemented:
