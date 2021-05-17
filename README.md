@@ -108,3 +108,5 @@ Some considerations regarding the development of the REST API.
 - Documentation made with Swagger including UI to test all endpoints if desired 
 - Class and architecture diagrams provided in /doc folder 
 - Active Records errors are rescued generically due to time restrictions when developing the challenge, it will be better to control them for each object instance so as to know which one fails and do not stop whole execution
+
+![architecture_diagram](doc/class.jpg)
