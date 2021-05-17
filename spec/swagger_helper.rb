@@ -25,11 +25,11 @@ RSpec.configure do |config|
       servers: [
         {
           url: 'https://mydatamood-survey.herokuapp.com',
-          description: 'production server',
+          description: 'production server'
         },
         {
           url: 'http://localhost:3000',
-          description: 'test server',
+          description: 'test server'
         }
       ],
       definitions: {
@@ -44,9 +44,9 @@ RSpec.configure do |config|
           type: 'object',
           properties: {
             id: { type: :string, example: '1234abcd' },
-            name: { type: :string, example: 'Car Insurance for any damage'},
-            category: { type: :string, example: 'car_insurances' },
-          }, required: ['name', 'category']
+            name: { type: :string, example: 'Car Insurance for any damage' },
+            category: { type: :string, example: 'car_insurances' }
+          }, required: %w[name category]
         },
         user: {
           type: 'object',
@@ -62,7 +62,7 @@ RSpec.configure do |config|
             user_id: { type: :string, example: 'asdfasdf123' },
             product_id: { type: :string, example: '1234abcd' },
             score: { type: :number, example: 7 }
-          }, required: ['user_id', 'product_id', 'score']
+          }, required: %w[user_id product_id score]
         }
       }
     }
