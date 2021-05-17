@@ -9,8 +9,7 @@ RSpec.describe 'products', type: :request do
       parameter name: :products, in: :body, schema: { type: :array, items: { '$ref' => '#/definitions/product' } }
 
       response(201, 'successful') do
-        schema type: :array, items: { '$ref' => '#/definitions/product' }
- 
+
         let(:products) { 
           [ 
             { id: "test_product_1", name: "test_product_1", category: "test_category" },
