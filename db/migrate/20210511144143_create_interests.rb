@@ -4,7 +4,7 @@ class CreateInterests < ActiveRecord::Migration[6.1]
       t.references :user, type: :string, null: false, foreign_key: true
       t.references :product, type: :string, null: false, foreign_key: true
       t.integer :score, null: false
-      t.index %i[id product_id], unique: true
+      t.index [:id, :product_id], unique: true
 
       t.timestamps
     end
