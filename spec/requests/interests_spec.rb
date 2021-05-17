@@ -38,11 +38,6 @@ RSpec.describe 'interests', type: :request do
         run_test! 
       end
 
-      response(422, 'user must exist') do
-        let(:interest) { { user_id: 100, product_id: product.id, score: 8} }
-        run_test! 
-      end
-
       response(422, 'product must exist') do
         let(:interest) { { user_id: user.id, product_id: 100, score: 8} }
         run_test! 
