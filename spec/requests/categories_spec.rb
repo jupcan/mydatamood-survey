@@ -11,26 +11,26 @@ RSpec.describe 'categories', type: :request do
 
       let!(:limit) { 2 }
       let!(:reverse) { true }
-      let!(:category_1) { Category.create(category: "test_category_1") }
-      let!(:category_2) { Category.create(category: "test_category_2") }
+      let!(:category_1) { Category.create(category: 'test_category_1') }
+      let!(:category_2) { Category.create(category: 'test_category_2') }
 
       response(200, 'list of categories') do
         schema type: :array, items: { '$ref' => '#/definitions/category' }
 
-        examples 'application/json' => [ 
-          { category: "landline_internet", score: 8 },
-          { category: "race_cars", score: 7 },
-          { category: "stock_investment", score: 6.5 } 
+        examples 'application/json' => [
+          { category: 'landline_internet', score: 8 },
+          { category: 'race_cars', score: 7 },
+          { category: 'stock_investment', score: 6.5 }
         ]
 
         let!(:q) { 'score' }
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(response).to be_successful
-          expect(response.content_type).to match(a_string_including("application/json"))
+          expect(response.content_type).to match(a_string_including('application/json'))
           expect(data.size).to eq 2
-          expect(data.first["category"]).to eq "test_category_1"
-        end 
+          expect(data.first['category']).to eq 'test_category_1'
+        end
       end
 
       response(400, 'unknown query type') do

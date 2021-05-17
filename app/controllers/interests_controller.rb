@@ -1,5 +1,4 @@
 class InterestsController < ApplicationController
-
   # POST /interests
   def create
     user = User.find_or_create_by(id: params[:user_id])
@@ -12,7 +11,8 @@ class InterestsController < ApplicationController
   end
 
   private
-    def interest_params
-      params.require(:interest).permit(:product_id, :score)
-    end
+
+  def interest_params
+    params.require(:interest).permit(:product_id, :score)
+  end
 end
