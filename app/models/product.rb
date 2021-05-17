@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product < ApplicationRecord
   include OrderScoreConcern
   after_initialize :generate_uuid

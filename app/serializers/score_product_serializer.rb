@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScoreProductSerializer < ActiveModel::Serializer
   attributes :product, :score
 

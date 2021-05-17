@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CategoriesController < ApplicationController
   # GET /categories
   def index
@@ -16,7 +18,7 @@ class CategoriesController < ApplicationController
     @categories.each do |category|
       category_interests = category.products.map(&:interests).flatten.map(&:score)
       unless category_interests.empty?
-        average_score = category_interests.sum.to_f / category_interests.count.to_f
+        average_score = category_interests.sum.to_f / category_interests.count
         category.update(score: average_score.round(2))
       end
     end

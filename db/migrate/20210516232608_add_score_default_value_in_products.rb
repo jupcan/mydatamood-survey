@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddScoreDefaultValueInProducts < ActiveRecord::Migration[6.1]
   def change
     change_column_default :products, :score, 0.0

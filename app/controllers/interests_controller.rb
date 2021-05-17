@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InterestsController < ApplicationController
   # POST /interests
   def create
