@@ -73,12 +73,6 @@ paths:
       responses:
         '201':
           description: successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/definitions/product"
       requestBody:
         content:
           application/json:
@@ -114,6 +108,8 @@ paths:
 servers:
 - url: https://mydatamood-survey.herokuapp.com
   description: production server
+- url: http://localhost:3000
+  description: test server
 definitions:
   category:
     type: object
